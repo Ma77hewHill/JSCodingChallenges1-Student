@@ -125,8 +125,8 @@ let cityData = [{
 //driver function used for display and passing values.
 function citySort() {
 
-    
-    sortByPopulation(cityData, "desc");
+    //function we need to build     
+    sortByPopulation(cityData, "asc");
     
     //extra credit functions
     //sortyByName(cityData);
@@ -145,15 +145,40 @@ function citySort() {
 
 //takes an array of objects and sorts by population. 
 function sortByPopulation(cityData, sortDir) {
-    
+    cityData.sort((a,b) => {
+        if (sortDir == "asc"){
+            return (a.population - b.population)
+        }else{
+            return (b.population - a.population)
+        }
+    });
 }
 
 //takes an array of objects and sorts by median age. 
 function sortByAge(cityData, sortDir){
-  
+    cityData.sort((a,b) => {
+        if (sortDir == "asc"){
+            return (a.median_age - b.median_age)
+        }else{
+            return (b.median_age - a.median_age)
+        }
+    });
 }
 
 //takes an array of objects and sorts by city name. 
 function sortyByName(cityData) {
-    
+    cityData.sort((a,b) => {
+        let ca = a.city.toLowerCase();
+        let cb = b.city.toLowerCase();
+
+        let compare = 0;
+
+        if( ca > cb){
+            compare = 1;
+        }else if (ca < cb){
+            compare = - 1;
+        }
+
+        return compare;
+    })
 }
