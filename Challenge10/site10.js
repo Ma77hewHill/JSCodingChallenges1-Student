@@ -23,9 +23,54 @@ function findWords() {
 
 //function to return the top 3 most used words
 function getMostUsedWords(wordText, topN) {
-    return [];
+   let wordCounts = [];
+
+   //convert to lowercase 
+   wordText = wordText.toLowerCase();
+
+   //replace special characters 
+   wordText = wordText.replace(/[^A-Z0-9\s']/ig, "");
+   //create word array 
+   let words = wordText.split(/\s+/g);
+
+   let stopWords = getStopWords();
+
+    words = words.filter(words => !stopWords.includes(words));
+
+   for (let index = 0; index < words.length; index++) {
+
+        let obj = wordCounts.find(w => {
+            return w.word === words[index];
+        });
+
+        if (obj === undefined) {
+            wordCounts.push({
+                "word" : words[index],
+                "count": 1
+            })
+        }else {
+            obj.count ++;
+        }
+    
+   }
+   
+   //sort in descending order 
+   sortByCount(wordCounts, "desc");
+
+   //get the top N results 
+   wordCounts = wordCounts.slice(0, topN);
+   return wordCounts;
 }
 
+function sortByCount(words, sortDir){
+    words.sort((a,b) => {
+        if(sortDir == "asc"){
+            return a.count - b.count
+        }else{
+            return b.count - a.count
+        }
+    });
+}
 
 //a list of stop words we don't want to include in stats
 function getStopWords() {
